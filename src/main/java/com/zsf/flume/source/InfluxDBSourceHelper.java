@@ -122,7 +122,7 @@ public class InfluxDBSourceHelper {
     }
     
     public void updateQuery() throws java.text.ParseException {
-        LOG.info("8888888888888888888888888888888" + query);
+        LOG.info( "SQLQuery is "+ query);
         this.setCurrentIndex(this.getStatusFileIndex(DEFAULT_INCREMENTAL_VALUE));
         query = buildQuery();
     }

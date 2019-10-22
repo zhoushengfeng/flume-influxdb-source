@@ -1,21 +1,25 @@
-## reference configuration
+## reference configuration      * represents required
 
-    # Describe/configure the source  * represents required
+    # Describe/configure the source  
     a1.sources.r1.type = com.zsf.flume.source.InfluxDBSource
+    
     #source type 声明  url = ip:port  *
     a1.sources.r1.influxdb.connection.url = 192.168.254.128:8086
+    
     #被采集数据源 username password * 
     a1.sources.r1.influxdb.connection.user = root
     a1.sources.r1.influxdb.connection.password = root
     a1.sources.r1.influxdb.connection.autocommit = true
+    
     # database name * 
     a1.sources.r1.database = zhousf
+    
     # Query delay, each configured milisecond the query will be sent
     # 批次时间
     a1.sources.r1.run.query.delay=10000
     
     # Status file is used to save last readed row
-    # 增量更新 最后一条记录 * 
+    # 增量更新条件数据保存点 * 
     a1.sources.r1.status.file.path = /export/data/sqlSource
     a1.sources.r1.status.file.name = sqlSource.status
     

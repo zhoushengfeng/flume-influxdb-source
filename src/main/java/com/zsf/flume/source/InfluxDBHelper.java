@@ -10,10 +10,13 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 /**
+ * InfluxDBHelper
+ *
  * @Program: flume-influxdb-source
  * @ClassName: InfluxDBHelper
- * @Author: 周生锋
+ * @Author: zhoushengfeng
  * @Create: 2019-10-18 19:34
+ * @Email: zhou_shengfeng@163.com
  **/
 public class InfluxDBHelper {
     private static final Logger LOG = LoggerFactory
@@ -50,11 +53,11 @@ public class InfluxDBHelper {
         if (influxDBSourceHelper.isCustomQuerySet()) {
             queryResult = influxDB.query(new Query(influxDBSourceHelper.getQuery(), database));
             if (!queryResult.hasError()) {
-                //获取到本批次数据
+                //Get the batch data
                 List<QueryResult.Result> results = queryResult.getResults();
                 if (results.size() > 0) {
                     if (results.get(0).getSeries() != null) {
-                        // [value1,value2,...]
+                        //format :  [value1,value2,...]
                         objects = results.get(0).getSeries().get(0).getValues().toArray();
                     }
                 }

@@ -11,7 +11,7 @@
     <name>Flume influxDB Source</name>
     <description>This project is used for flume-ng to import data from influxDB .</description>
 
-    <url>https://github.com/</url>
+    <url>https://github.com/zhoushengfeng/flume-influxdb-source</url>
     <licenses>
         <license>
             <name>The Apache License, Version 2.0</name>
@@ -97,7 +97,7 @@
     </build>
     <organization>
         <name>zhousf</name>
-        <url></url>
+        <url>https://github.com/zhoushengfeng/flume-influxdb-source</url>
     </organization>
 
 </project>

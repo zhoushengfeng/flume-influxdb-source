@@ -19,6 +19,15 @@ import java.util.Map;
 import static org.json.simple.parser.ParseException.ERROR_UNEXPECTED_EXCEPTION;
 
 /**
+ * InfluxDBSourceHelper
+ *
+ * @Program: flume-influxdb-source
+ * @ClassName: InfluxDBSource
+ * @Author: zhoushengfeng
+ * @Create: 2019-10-18 16:42
+ * @Email: zhou_shengfeng@163.com
+ * <p>
+ * <p>
  * Helper to manage configuration parameters and utility methods <p>
  * <p>
  * Configuration parameters readed from flume configuration file:
@@ -31,8 +40,7 @@ import static org.json.simple.parser.ParseException.ERROR_UNEXPECTED_EXCEPTION;
  * <tt>batch.size: </tt> Batch size to send events from flume source to flume channel <p>
  * <tt>max.rows: </tt> Max rows to import from DB in one query <p>
  * <tt>custom.query: </tt> Custom query to execute to database (be careful) <p>
- */
-
+ **/
 public class InfluxDBSourceHelper {
     
     private static final Logger LOG = LoggerFactory.getLogger(InfluxDBSourceHelper.class);
@@ -46,9 +54,7 @@ public class InfluxDBSourceHelper {
     private Boolean encloseByQuotes;
     
     private Context context;
-    
     private Map<String, String> statusFileJsonMap = new LinkedHashMap<String, String>();
-    
     private boolean readOnlySession;
     
     private static final String DEFAULT_STATUS_DIRECTORY = "/var/lib/flume";
@@ -74,8 +80,7 @@ public class InfluxDBSourceHelper {
     private JSONParser jsonParser;
     
     /**
-     * Builds an SQLSourceHelper containing the configuration parameters and
-     * usefull utils for SQL Source
+     * Builds an InfluxDBSourceHelper containing the configuration parameters and
      *
      * @param context    Flume source context, contains the properties from configuration file
      * @param sourceName source file name for store status
@@ -295,7 +300,7 @@ public class InfluxDBSourceHelper {
     public void checkMandatoryProperties() {
         
         /**
-         * 必要属性检测  url username password database filepath
+         * Necessary attribute detection:  url username password database filepath
          */
         if (connectionURL == null) {
             throw new ConfigurationException("influxdb.connection.url property not set");

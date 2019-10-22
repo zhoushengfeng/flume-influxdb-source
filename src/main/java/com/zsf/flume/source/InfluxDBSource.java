@@ -25,8 +25,9 @@ import java.util.Map;
  *
  * @Program: flume-influxdb-source
  * @ClassName: InfluxDBSource
- * @Author: 周生锋
+ * @Author: zhoushengfeng
  * @Create: 2019-10-18 16:42
+ * @Email: zhou_shengfeng@163.com
  **/
 public class InfluxDBSource extends AbstractSource implements Configurable, PollableSource {
     
@@ -137,8 +138,7 @@ public class InfluxDBSource extends AbstractSource implements Configurable, Poll
             s = new String(cbuf);
             event.setBody(s.substring(off, len - 1).getBytes(Charset.forName(influxDBSourceHelper.getDefaultCharsetResultSet())));
             
-            
-            headers = new HashMap<String, String>();
+            headers = new HashMap<>(1);
             headers.put("timestamp", String.valueOf(System.currentTimeMillis()));
             event.setHeaders(headers);
             events.add(event);

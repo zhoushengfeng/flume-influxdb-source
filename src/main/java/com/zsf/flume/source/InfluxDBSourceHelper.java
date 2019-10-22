@@ -68,6 +68,11 @@ public class InfluxDBSourceHelper {
     private static final String DEFAULT_CHARSET_RESULTSET = "UTF-8";
     private SimpleDateFormat simpleDateFormat;
     
+    private FileReader fileReader;
+    private Writer fileWriter;
+    
+    private JSONParser jsonParser;
+    
     /**
      * Builds an SQLSourceHelper containing the configuration parameters and
      * usefull utils for SQL Source
@@ -78,7 +83,6 @@ public class InfluxDBSourceHelper {
     public InfluxDBSourceHelper(Context context, String sourceName) throws java.text.ParseException {
         
         this.context = context;
-        simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         
         statusFilePath = context.getString("status.file.path", DEFAULT_STATUS_DIRECTORY);
         statusFileName = context.getString("status.file.name");
@@ -102,6 +106,9 @@ public class InfluxDBSourceHelper {
         statusFileJsonMap = new LinkedHashMap<String, String>();
         defaultCharsetResultSet = context.getString("default.charset.resultset", DEFAULT_CHARSET_RESULTSET);
         
+        jsonParser = new JSONParser();
+        simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        
         checkMandatoryProperties();
         
         if (!(isStatusDirectoryCreated())) {
@@ -122,7 +129,6 @@ public class InfluxDBSourceHelper {
     }
     
     public void updateQuery() throws java.text.ParseException {
-        LOG.info( "SQLQuery is "+ query);
         this.setCurrentIndex(this.getStatusFileIndex(DEFAULT_INCREMENTAL_VALUE));
         query = buildQuery();
     }
@@ -191,7 +197,7 @@ public class InfluxDBSourceHelper {
         }
         
         try {
-            Writer fileWriter = new FileWriter(file, false);
+            fileWriter = new FileWriter(file, false);
             JSONValue.writeJSONString(statusFileJsonMap, fileWriter);
             fileWriter.close();
         } catch (IOException e) {
@@ -207,7 +213,7 @@ public class InfluxDBSourceHelper {
         statusFileJsonMap.put(LAST_INDEX_STATUS_FILE, latTime);
         
         try {
-            Writer fileWriter = new FileWriter(file, false);
+            fileWriter = new FileWriter(file, false);
             JSONValue.writeJSONString(statusFileJsonMap, fileWriter);
             fileWriter.close();
         } catch (IOException e) {
@@ -222,9 +228,7 @@ public class InfluxDBSourceHelper {
             return configuredStartValue;
         } else {
             try {
-                FileReader fileReader = new FileReader(file);
-                
-                JSONParser jsonParser = new JSONParser();
+                fileReader = new FileReader(file);
                 statusFileJsonMap = (Map) jsonParser.parse(fileReader);
                 return statusFileJsonMap.get(LAST_INDEX_STATUS_FILE);
                 

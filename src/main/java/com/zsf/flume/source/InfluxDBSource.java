@@ -127,15 +127,17 @@ public class InfluxDBSource extends AbstractSource implements Configurable, Poll
     
     private class ChannelWriter extends Writer {
         private List<Event> events = new ArrayList<>();
+        private Event event;
+        private String s;
+        private Map<String, String> headers;
         
         @Override
         public void write(char[] cbuf, int off, int len) throws IOException {
-            Event event = new SimpleEvent();
-            
-            String s = new String(cbuf);
+            event = new SimpleEvent();
+            s = new String(cbuf);
             event.setBody(s.substring(off, len - 1).getBytes(Charset.forName(influxDBSourceHelper.getDefaultCharsetResultSet())));
             
-            Map<String, String> headers;
+            
             headers = new HashMap<String, String>();
             headers.put("timestamp", String.valueOf(System.currentTimeMillis()));
             event.setHeaders(headers);

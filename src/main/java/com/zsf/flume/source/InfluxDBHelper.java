@@ -26,7 +26,6 @@ public class InfluxDBHelper {
     private String username;
     private String password;
     private String database;
-    private Query query;
     
     
     public InfluxDBHelper(InfluxDBSourceHelper influxDBSourceHelper) {
@@ -64,9 +63,6 @@ public class InfluxDBHelper {
         return objects;
     }
     
-    private void resetConnection() {
-    
-    }
     
     public void establishConnect() {
         LOG.info("get influxdb connect");

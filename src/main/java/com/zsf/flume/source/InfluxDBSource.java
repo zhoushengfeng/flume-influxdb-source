@@ -61,7 +61,7 @@ public class InfluxDBSource extends AbstractSource implements Configurable, Poll
                 Thread.sleep(influxDBSourceHelper.getRunQueryDelay());
             }
             return Status.READY;
-        } catch (IOException | InterruptedException | ParseException e) {
+        } catch (ParseException | InterruptedException | IOException e) {
             LOG.error("Error procesing row", e);
             return Status.BACKOFF;
         }
@@ -92,7 +92,6 @@ public class InfluxDBSource extends AbstractSource implements Configurable, Poll
             e.printStackTrace();
         }
         influxDBHelper = new InfluxDBHelper(influxDBSourceHelper);
-        influxDBHelper.establishConnect();
         
         /* Instantiate the CSV Writer */
         csvWriter = new CSVWriter(new ChannelWriter(), influxDBSourceHelper.getDelimiterEntry().charAt(0));

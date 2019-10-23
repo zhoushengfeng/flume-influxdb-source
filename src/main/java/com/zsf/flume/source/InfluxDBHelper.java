@@ -45,14 +45,18 @@ public class InfluxDBHelper {
     
     public Object[] executeQuery() {
         Object[] objects = new Object[0];
-        QueryResult queryResult;
+        QueryResult queryResult = null;
         if (influxDB == null) {
             establishConnect();
         }
         
         if (influxDBSourceHelper.isCustomQuerySet()) {
-            queryResult = influxDB.query(new Query(influxDBSourceHelper.getQuery(), database));
-            if (!queryResult.hasError()) {
+            try {
+                queryResult = influxDB.query(new Query(influxDBSourceHelper.getQuery(), database));
+            } catch (Exception e) {
+                LOG.error("influxDB query error: " + e.getMessage());
+            }
+            if (queryResult != null && !queryResult.hasError()) {
                 //Get the batch data
                 List<QueryResult.Result> results = queryResult.getResults();
                 if (results.size() > 0) {
@@ -69,9 +73,14 @@ public class InfluxDBHelper {
     
     public void establishConnect() {
         LOG.info("get influxdb connect");
+        
         if (influxDB == null) {
-            influxDB = InfluxDBFactory.connect(this.url.startsWith("http://") ? this.url : "http://" + this.url,
-                    this.username, this.password);
+            try {
+                influxDB = InfluxDBFactory.connect(this.url.startsWith("http://") ? this.url : "http://" + this.url,
+                        this.username, this.password);
+            } catch (Exception e) {
+                LOG.error("get influxdb connect  error: " + e.getMessage());
+            }
         }
     }
     
